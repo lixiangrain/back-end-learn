@@ -1,0 +1,22 @@
+{
+  "files": [
+    {
+      "id": "6ac5373ce5334e192b2b97fa668e2d92",
+      "originalName": "logo.png",
+      "fileName": "6ac5373ce5334e192b2b97fa668e2d92_logo.png",
+      "size": 115116,
+      "mimeType": "image/png",
+      "uploadTime": "2025-07-27T12:47:53.599Z",
+      "path": "/Users/mcell/Desktop/codepaint/back-end-learn/codes/03-file-server/uploads/6ac5373ce5334e192b2b97fa668e2d92_logo.png"
+    },
+    {
+      "id": "12792c4ff6362428924ee88708a94905",
+      "originalName": "logo.png",
+      "fileName": "12792c4ff6362428924ee88708a94905_logo.png",
+      "size": 115116,
+      "mimeType": "image/png",
+      "uploadTime": "2025-07-27T12:55:26.886Z",
+      "path": "/Users/mcell/Desktop/codepaint/back-end-learn/codes/03-file-server/uploads/12792c4ff6362428924ee88708a94905_logo.png"
+    }
+  ]
+}
