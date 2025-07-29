@@ -8,8 +8,6 @@ const pool = mysql.createPool({
   password: '',           // 数据库密码
   database: 'blog_db',    // 数据库名称
   connectionLimit: 10,    // 连接池最大连接数
-  charset: 'utf8mb4',     // 字符集
-  supportBigNumbers: true // 支持大数字
 });
 
 // 获取数据库连接
@@ -23,6 +21,19 @@ function getConnection(callback) {
   });
 }
 
+// 测试数据库连接
+async function testConnection() {
+  try {
+    const connection = await pool.promise().getConnection();
+    console.log('数据库连接测试成功');
+    connection.release();
+    return true;
+  } catch (error) {
+    console.error('数据库连接测试失败:', error);
+    return false;
+  }
+}
+
 const promisePool = pool.promise();
 
-export { promisePool as pool, getConnection };
+export { promisePool as pool, getConnection, testConnection };
