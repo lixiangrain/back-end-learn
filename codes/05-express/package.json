@@ -1,0 +1,24 @@
+{
+  "name": "express-examples",
+  "version": "1.0.0",
+  "description": "Express examples for learning",
+  "main": "basic-example.js",
+  "type": "module",
+  "scripts": {
+    "start": "node basic-example.js",
+    "lib-example": "node lib-examples.js"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "examples",
+    "tutorial"
+  ],
+  "author": "Developer",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
+  }
+}
