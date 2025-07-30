@@ -1,6 +1,5 @@
 // API路由
 import express from 'express';
-import User from '../models/user.js';
 import Post from '../models/post.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { success, error } from '../utils/response.js';
