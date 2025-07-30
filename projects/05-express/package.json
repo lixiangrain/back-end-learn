@@ -2,16 +2,14 @@
   "name": "express-examples",
   "version": "1.0.0",
   "description": "Express examples for learning",
-  "main": "basic-example.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node basic-example.js",
-    "lib-example": "node lib-examples.js"
+    "start": "node app.js"
   },
   "keywords": [
     "express",
     "nodejs",
-    "examples",
     "tutorial"
   ],
   "author": "Developer",
