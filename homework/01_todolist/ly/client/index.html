@@ -11,44 +11,50 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- <link rel="stylesheet" href="./index.css"> -->
-   
-       <style>
-         * {
-             margin: 0;
-             padding: 0;
-             box-sizing: border-box;
-         }
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         .bigbox {
             width: 1000px;
             margin: 0 auto;
         }
+
         .bigbox h1 {
             padding: 10px 0;
             margin-bottom: 20px;
             color: rgb(233, 105, 128);
             border-bottom: 3px solid pink;
         }
-        .bigbox .boxTop{
+
+        .bigbox .boxTop {
             width: 70%;
             margin: 0 auto;
             background-color: rgb(249, 250, 251);
-            padding: 24px; 
-            border-radius: 8px; 
+            padding: 24px;
+            border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .bigbox .boxTop h4 {
             /* margin-bottom: 0; */
             /* background-color: red; */
             margin: 10px 0 10px 0;
         }
+
         .bigbox .boxTop input {
             margin-top: 0;
             width: 100%;
             height: 40px;
             padding: 0 12px;
-            outline: none; 
-           
+            outline: none;
+
         }
+
         .bigbox .boxTop textarea {
             width: 100%;
             height: 100px;
@@ -56,6 +62,7 @@
             outline: none;
             box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
         }
+
         .bigbox .boxTop button {
             margin-top: 10px;
             width: 100px;
@@ -66,72 +73,83 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-          }
-          .bigbox .boxTop select {
+        }
+
+        .bigbox .boxTop select {
             width: 100%;
             height: 40px;
             padding: 0 12px;
-            outline: none; 
+            outline: none;
             box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
-          }
-          .boxBottom {
+        }
+
+        .boxBottom {
             margin-top: 20px;
             width: 100%;
             padding: 24px;
             background-color: rgb(249, 250, 251);
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          }
-          .boxBottom table {
+        }
+
+        .boxBottom table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
             font-family: Arial, sans-serif;
-           
-          }
-          .boxBottom table tr {
-              border: 1px solid #ccc; /* 给单元格加边框 */
-              padding: 8px 12px;
-              text-align: left;
-              background-color: rgb(255, 255, 255);
-             
-          }
-           .boxBottom table tr:hover {
+
+        }
+
+        .boxBottom table tr {
+            border: 1px solid #ccc;
+            /* 给单元格加边框 */
+            padding: 8px 12px;
+            text-align: left;
+            background-color: rgb(255, 255, 255);
+
+        }
+
+        .boxBottom table tr:hover {
             background-color: rgb(249, 250, 251);
-          }
-          .boxBottom table tr td:nth-child(1)
-          {
+        }
+
+        .boxBottom table tr td:nth-child(1) {
             padding: 15px 15px;
-            
-          }
-          .boxBottom table tr:nth-child(1) {
+
+        }
+
+        .boxBottom table tr:nth-child(1) {
             background-color: rgb(249, 250, 251);
             font-weight: bold;
-          }
+        }
+
         .boxBottom table tr .st {
             font-weight: bold;
-            
+
         }
+
         .boxBottom table tr .st1 {
             background-color: rgb(121, 187, 255);
-            color:rgb(252, 253, 255);
+            color: rgb(252, 253, 255);
             border: none;
             display: block;
-            padding: 10px ;
+            padding: 10px;
             border-radius: 4px;
             cursor: pointer;
         }
+
         .boxBottom table tr .st2 {
             background-color: rgb(248, 152, 152);
-            color:rgb(252, 253, 255);
+            color: rgb(252, 253, 255);
             border: none;
             display: block;
-            padding: 10px ;
+            padding: 10px;
             border-radius: 4px;
             cursor: pointer;
         }
-         .boxBottom table tr .st3 {
-         
+
+        .boxBottom table tr .st3 {
+
             display: block;
             padding-top: 15px;
             width: 100px;
@@ -139,86 +157,86 @@
             cursor: pointer;
             white-space: nowrap;
         }
-          
-          
-       </style>
+    </style>
 </head>
 
 <body>
-    <div id="app" class = "bigbox">
+    <div id="app" class="bigbox">
         <h1>任务管理系统</h1>
-       
-   <div class="boxTop" v-if = "isBoolean">
-    <h4>标题</h4><input type="text" placeholder="请输入标题" v-model="title"><br>
-    <h4>描述</h4><textarea cols="50"placeholder="请输入任务内容" rows="10" v-model="description"></textarea><br>
-    <button @click="addTask">提交</button> 
-   </div>
-    <div class="boxTop" v-else>
-       <h4>任务状态</h4><select v-model="completed">
-            <option value="true">已完成</option>
-            <option value="false">未完成</option>
-        </select><br>
-       <h4>标题</h4><input type="text" placeholder="请输入标题" v-model="title1"><br>
-        <h4>描述</h4><textarea cols="50" rows="10" v-model="description1"></textarea><br>
-        <button @click="putTask(id)">更新</button> <button @click="isBoolean = true">去提交</button>
-    </div>
-    <h1>任务例表</h1>
-   <div class="boxBottom">
-  <table>
-    <tr>
-      <td>标题</td>
-      <td>描述</td>
-      <td>任务状态</td>
-      <td>创建时间</td>
-      <td>更新时间</td>
-      <td>更新</td>
-      <td>删除</td>
-     
-    </tr>
-    <tr v-for="item in list" :key = "item.id">
-      <td>{{item.title}}</td>
-      <td class = "st3" @mouseleave = "hideDescription" @mouseenter = "showDescription(item.description,item.title)">{{item.description}}</td>
-    <td class = "st":style="{ color: item.completed ? 'rgb(36, 143, 99)' : 'rgb(190, 174, 131)' }">
-        {{ item.completed }}
-    </td>
-      <td>{{item.createTime}}</td>
-      <td>{{item.updateTime}}</td>
-      <td>
-        <button class = "st1" @click="putTaskId(item.id,item.description,item.title,item.completed)">更新</button>
-      </td>
-      <td>
-        <button  class = "st2" @click="deleteTask(item.id)">删除</button>
-      </td>
-    </tr>
-  </table>
-</div>
+
+        <div class="boxTop" v-if="isBoolean">
+            <h4>标题</h4><input type="text" placeholder="请输入标题" v-model="title"><br>
+            <h4>描述</h4><textarea cols="50" placeholder="请输入任务内容" rows="10" v-model="description"></textarea><br>
+            <button @click="addTask">提交</button>
+        </div>
+        <div class="boxTop" v-else>
+            <h4>任务状态</h4><select v-model="completed">
+                <option value="true">已完成</option>
+                <option value="false">未完成</option>
+            </select><br>
+            <h4>标题</h4><input type="text" placeholder="请输入标题" v-model="title1"><br>
+            <h4>描述</h4><textarea cols="50" rows="10" v-model="description1"></textarea><br>
+            <button @click="putTask(id)">更新</button> <button @click="isBoolean = true">去提交</button>
+        </div>
+        <h1>任务例表</h1>
+        <div class="boxBottom">
+            <table>
+                <tr>
+                    <td>标题</td>
+                    <td>描述</td>
+                    <td>任务状态</td>
+                    <td>创建时间</td>
+                    <td>更新时间</td>
+                    <td>更新</td>
+                    <td>删除</td>
+
+                </tr>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{item.title}}</td>
+                    <td class="st3" @mouseleave="hideDescription"
+                        @mouseenter="showDescription(item.description,item.title)">{{item.description}}</td>
+                    <td class="st" :style="{ color: item.completed ? 'rgb(36, 143, 99)' : 'rgb(190, 174, 131)' }">
+                        {{ item.completed }}
+                    </td>
+                    <td>{{item.createTime}}</td>
+                    <td>{{item.updateTime}}</td>
+                    <td>
+                        <button class="st1"
+                            @click="putTaskId(item.id,item.description,item.title,item.completed)">更新</button>
+                    </td>
+                    <td>
+                        <button class="st2" @click="deleteTask(item.id)">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <script>
-       axios.defaults.baseURL = 'http://localhost:3000';
+        axios.defaults.baseURL = 'http://localhost:3000';
         const app = new Vue({
             el: '#app',
             data() {
                 return {
-                    list :[],
-                    title:'',
-                    title1:'',
-                    description:'',
-                    description1:'',
-                    id:'',
-                    isBoolean:true,
-                    completed:false,
-                    color1:''
-                  
+                    list: [],
+                    title: '',
+                    title1: '',
+                    description: '',
+                    description1: '',
+                    id: '',
+                    isBoolean: true,
+                    completed: false,
+                    color1: ''
+
                 }
             },
             async created() {
                 this.GetAllTasks()
-          
+
             },
             methods: {
-                
-                putTaskId(id,description,title,completed) {
+
+                putTaskId(id, description, title, completed) {
 
 
                     this.id = id
@@ -227,7 +245,7 @@
                     this.completed = completed
                     this.isBoolean = false
                 },
-                showDescription(description,title) {
+                showDescription(description, title) {
                     this.description = description
                     this.title = title
                     // this.description1 = description
@@ -256,12 +274,12 @@
                 },
                 async addTask() {
                     try {
-                        
+
                         const res = await axios.post('/api/todos', {
                             title: this.title,
                             description: this.description
                         });
-                
+
                         console.log(res.data);
                         this.title = ''
                         this.description = ''
@@ -275,9 +293,9 @@
                 },
                 async deleteTask(id) {
                     try {
-                       
-                       const res = await axios.delete('/api/todos/id', {
-                           data: { id: id }
+
+                        const res = await axios.delete('/api/todos/id', {
+                            data: { id: id }
                         });
                         console.log(res.data.message);
                         alert(res.data.message)
@@ -297,7 +315,7 @@
                             id: this.id,
                             title: this.title1,
                             description: this.description1,
-                            completed:this.completed
+                            completed: this.completed
                         });
                         console.log(res.data.data);
                         alert(res.data.message)
@@ -308,7 +326,7 @@
                         this.GetAllTasks();
                         this.isBoolean = true
                     } catch (error) {
-                           console.error('更新请求失败:', error.response.data.error);
+                        console.error('更新请求失败:', error.response.data.error);
                         // 可以在这里添加错误提示逻辑
                         alert(error.response.data.error)
                         // 可以在这里添加错误提示逻辑
@@ -317,7 +335,7 @@
             }
         });
     </script>
-    
+
 </body>
 
 </html>
