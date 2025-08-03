@@ -160,14 +160,12 @@ const putTodos = async (req, res) => {
     }
     if (!title) {
       Todos[index].title = ""
-    }
-    else {
+    }else {
       Todos[index].title = title
     }
     if (!description) {
       Todos[index].description = ""
-    }
-    else {
+    }else {
       Todos[index].description = description
     }
     Todos[index].updateTime = formatDate(new Date().toISOString())
@@ -203,22 +201,18 @@ server.on('request', async (req, res) => {
     if (method === 'GET') {
       getTodos(req, res)
 
-    }
-    else if (method === 'POST') {
+    }else if (method === 'POST') {
       postTodos(req, res)
 
     }
-  }
-  else if (baseUrl === '/api/todos/id') {
+  }else if (baseUrl === '/api/todos/id') {
     if (method === 'DELETE') {
       deleteTodos(req, res)
 
-    }
-    else if (method === 'PUT') {
+    }else if (method === 'PUT') {
       putTodos(req, res)
     }
-  }
-  else {
+  }else {
     // 引入html
     // const html = await readFileHtml(clientPtah);
     // res.setHeader('content-type', 'text/html');
