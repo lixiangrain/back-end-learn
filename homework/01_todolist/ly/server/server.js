@@ -50,12 +50,12 @@ const getTodos = async (req, res) => {
   try {
     const todos = await readFileJSON(dataPath)
     res.statusCode = 200
-    res.end(JSON.stringify({ success: true, data: todos, message: 'get请求成功' }))
+    res.end(JSON.stringify({ code: 200, success: true, data: todos, message: 'get请求成功' }))
   }
   // 失败
   catch (err) {
     res.statusCode = 500
-    res.end(JSON.stringify({ success: false, error: err.message }))
+    res.end(JSON.stringify({ code: 500, success: false, error: err.message }))
   }
 }
 // 解析请求体（处理 POST/PUT 的 JSON 数据）
@@ -82,7 +82,7 @@ const postTodos = async (req, res) => {
     if (!body.title) {
       // console.log("22222222")
       res.statusCode = 400
-      res.end(JSON.stringify({ success: false, error: 'title is required' }))
+      res.end(JSON.stringify({ code: 400, success: false, error: 'title is required' }))
       return
     }
     const Todos = await readFileJSON(dataPath)
@@ -99,11 +99,11 @@ const postTodos = async (req, res) => {
     Todos.unshift(newTodo)
     await writeFileJSON(dataPath, Todos)
     res.statusCode = 200
-    res.end(JSON.stringify({ success: true, data: newTodo, message: 'create success' }))
+    res.end(JSON.stringify({ code: 200, success: true, data: newTodo, message: 'create success' }))
 
   } catch (err) {
     res.statusCode = 400;
-    res.end(JSON.stringify({ success: false, error: err.message }));
+    res.end(JSON.stringify({ code: 400, success: false, error: err.message }));
   }
 }
 // 处理delete
@@ -115,23 +115,23 @@ const deleteTodos = async (req, res) => {
     // id 不能为空(前端根据id来删除数据)
     if (!id) {
       res.statusCode = 400
-      res.end(JSON.stringify({ success: false, error: 'id is required' }))
+      res.end(JSON.stringify({ code: 400, success: false, error: 'id is required' }))
       return
     }
     const Todos = await readFileJSON(dataPath)
     const remainTodos = Todos.filter(todo => String(todo.id) !== String(id));
     if (Todos.length === remainTodos.length) {
       res.statusCode = 400
-      res.end(JSON.stringify({ success: false, error: 'id not found' }))
+      res.end(JSON.stringify({ code: 400, success: false, error: 'id not found' }))
       return
     }
     await writeFileJSON(dataPath, remainTodos)
     res.statusCode = 200
-    res.end(JSON.stringify({ success: true, message: 'delete success', data: remainTodos }))
+    res.end(JSON.stringify({ code: 200, success: true, message: 'delete success', data: remainTodos }))
   }
   catch (err) {
     res.statusCode = 400
-    res.end(JSON.stringify({ success: false, error: err.message }))
+    res.end(JSON.stringify({ code: 400, success: false, error: err.message }))
   }
 }
 // 处理put
@@ -146,7 +146,7 @@ const putTodos = async (req, res) => {
     // id 不能为空(前端根据id来删除数据)
     if (!id) {
       res.statusCode = 400
-      res.end(JSON.stringify({ success: false, error: 'id is required' }))
+      res.end(JSON.stringify({ code: 400, success: false, error: 'id is required' }))
       return
     }
     const Todos = await readFileJSON(dataPath)
@@ -172,11 +172,12 @@ const putTodos = async (req, res) => {
     Todos[index].completed = completed || Todos[index].completed
     await writeFileJSON(dataPath, Todos)
     res.statusCode = 200
-    res.end(JSON.stringify({ success: true, data: Todos[index], message: 'update success' }))
+    res.end(JSON.stringify({ code: 200, success: true, data: Todos[index], message: 'update success' }))
   }
   catch (err) {
     res.statusCode = 400
-    res.end(JSON.stringify({ success: false, error: err.message }))
+    res.end(JSON.stringify({ code: 400, success: false, error: err.message }))
+
   }
 }
 const server = http.createServer()
