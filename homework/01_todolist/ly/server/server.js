@@ -2,9 +2,12 @@ const http = require('http')
 const path = require('path')
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid');// 引入uuid模块,它是
+const { formatDate } = require('./utils/format.js')
+
+
 const dataPath = path.join(__dirname, './data/todos.json')// 存储数据的路径
 const clientPath = path.join(__dirname, '../client/index.html')// 客户端的路径
-const { formatDate } = require('./utils/format.js')
+
 // 读文件
 const readFileJSON = async (dataPath) => {
   try {
