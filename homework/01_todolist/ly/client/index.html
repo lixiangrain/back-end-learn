@@ -230,9 +230,13 @@
 
                 }
             },
-            async created() {
-                this.GetAllTasks()
-
+           async created() {
+                try {
+                    await this.GetAllTasks() 
+                } catch (error) {
+                    console.error('获取任务失败:', error)
+                 
+                }
             },
             methods: {
 
