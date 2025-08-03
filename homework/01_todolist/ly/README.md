@@ -69,14 +69,14 @@ Back-end/
 
 系统提供以下 API 接口用于任务管理：
 
-- **获取所有任务**：`GET /api/todos`
-- **创建任务**：`POST /api/todos`（需提供 title，description 可选）
-- **更新任务**：`PUT /api/todos/id`（需提供 id，其他字段可选）
-- **删除任务**：`DELETE /api/todos/id`（需提供 id）
+- **获取所有任务**：`GET/api/todos`
+- **创建任务**：`POST/api/todos`（需提供 title，description 可选）
+- **更新任务**：`PUT/api/todos/id`（需提供 id，其他字段可选）
+- **删除任务**：`DELETE/api/todos/id`（需提供 id）
 
 详细接口参数及响应格式可参考 `docs/api.md` 文件。
 
 ## 功能演示
 
-可参考 `docs/Demo Screenshots.md` 文件查看各功能的演示截图及操作说明。
+可参考 `docs/DemoScreenshots.md` 文件查看各功能的演示截图及操作说明。
 
