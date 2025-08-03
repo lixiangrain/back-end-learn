@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+# 添加
+.vscode
+/vscode
