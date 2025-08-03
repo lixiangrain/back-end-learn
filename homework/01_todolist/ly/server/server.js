@@ -11,7 +11,7 @@ const clientPath = path.join(__dirname, '../client/index.html')// 客户端的�
 // 读文件
 const readFileJSON = async (dataPath) => {
   try {
-    const data = await fs.readFileSync(dataPath, 'utf-8')
+    const data = await fs.promises.readFile(dataPath, 'utf-8')
     return JSON.parse(data)
   }
   catch (err) {
@@ -25,7 +25,7 @@ const readFileJSON = async (dataPath) => {
 // 写入文件
 const writeFileJSON = async (dataPath, data) => {
   try {
-    await fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
+    await fs.promises.writeFile(dataPath, JSON.stringify(data, null, 2))
   }
   catch (err) {
     console.log(err)
@@ -35,7 +35,7 @@ const writeFileJSON = async (dataPath, data) => {
 // 引入html 
 const readFileHtml = async (clientPtah) => {
   try {
-    const data = await fs.readFileSync(clientPtah, 'utf-8')
+    const data = await fs.promises.readFile(clientPtah, 'utf-8')
     // console.log(data)
     return data
   }
