@@ -174,8 +174,8 @@
                 <option value="true">已完成</option>
                 <option value="false">未完成</option>
             </select><br>
-            <h4>标题</h4><input type="text" placeholder="请输入标题" v-model="title1"><br>
-            <h4>描述</h4><textarea cols="50" rows="10" v-model="description1"></textarea><br>
+            <h4>标题</h4><input type="text" placeholder="请输入标题" v-model="titleChange"><br>
+            <h4>描述</h4><textarea cols="50" rows="10" v-model="descriptionChange"></textarea><br>
             <button @click="putTask(id)">更新</button> <button @click="isBoolean = true">去提交</button>
         </div>
         <h1>任务例表</h1>
@@ -220,9 +220,9 @@
                 return {
                     list: [],
                     title: '',
-                    title1: '',
+                    titleChange: '',
                     description: '',
-                    description1: '',
+                    descriptionChange: '',
                     id: '',
                     isBoolean: true,
                     completed: false,
@@ -242,8 +242,8 @@
 
                 putTaskId(id, description, title, completed) {
                     this.id = id
-                    this.description1 = description
-                    this.title1 = title
+                    this.descriptionChange = description
+                    this.titleChange = title
                     this.completed = completed
                     this.isBoolean = false
                 },
@@ -316,15 +316,15 @@
                         // console.log(id)
                         const res = await axios.put('/api/todos/id', {
                             id: this.id,
-                            title: this.title1,
-                            description: this.description1,
+                            title: this.titleChange,
+                            description: this.descriptionChange,
                             completed: this.completed
                         });
                         console.log(res.data.data);
                         alert(res.data.message)
                         this.id = ''
-                        this.title1 = ''
-                        this.description1 = ''
+                        this.titleChange = ''
+                        this.descriptionChange = ''
                         this.completed = false
                         this.GetAllTasks();
                         this.isBoolean = true
