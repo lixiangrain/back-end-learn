@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Input, Card, Select, Spinner, Alert, Message } from './ui';
+import { Button, Input, Card, Select, Spinner, Alert } from './ui';
 import { SendOutlined, LogoutOutlined, UserOutlined, RobotOutlined } from '@ant-design/icons';
 import useAuthStore from '../store/authStore';
 import { getModels, streamChatResponse } from '../services/chatService';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const Chat = () => {
   // 聊天消息状态
@@ -158,29 +160,54 @@ const Chat = () => {
   // 自定义Markdown组件
   const MarkdownComponents = {
     p: ({ node, ...props }) => <p style={{ margin: '0 0 10px 0' }} {...props} />,
-    code: ({ node, inline, ...props }) => {
-      if (inline) {
-        return <code style={{ 
-          background: 'rgba(118, 118, 128, 0.12)', 
-          padding: '2px 4px', 
-          borderRadius: '4px',
-          fontSize: '14px'
-        }} {...props} />;
+    code: ({ node, inline, className, children, ...props }) => {
+      const match = /language-(\w+)/.exec(className || '');
+      
+      if (!inline && match) {
+        // 代码块 - 使用语法高亮
+        return (
+          <SyntaxHighlighter
+            style={oneLight}
+            language={match[1]}
+            PreTag="div"
+            showLineNumbers={true}
+            {...props}
+          >
+            {String(children).replace(/\n$/, '')}
+          </SyntaxHighlighter>
+        );
+      } else if (!inline) {
+        // 无指定语言的代码块
+        return (
+          <SyntaxHighlighter
+            style={oneLight}
+            PreTag="div"
+            showLineNumbers={true}
+            {...props}
+          >
+            {String(children).replace(/\n$/, '')}
+          </SyntaxHighlighter>
+        );
+      } else {
+        // 行内代码
+        return (
+          <code 
+            style={{ 
+              background: 'rgba(118, 118, 128, 0.12)', 
+              padding: '2px 4px', 
+              borderRadius: '4px',
+              fontSize: '14px'
+            }} 
+            {...props}
+          >
+            {children}
+          </code>
+        );
       }
-      return <code style={{ 
-        display: 'block',
-        background: 'rgba(118, 118, 128, 0.12)', 
-        padding: '12px',
-        borderRadius: '8px',
-        fontSize: '14px',
-        margin: '10px 0',
-        whiteSpace: 'pre-wrap',
-        overflowX: 'auto'
-      }} {...props} />;
     },
     pre: ({ node, ...props }) => <pre style={{ 
-      background: 'rgba(118, 118, 128, 0.12)', 
-      padding: '12px',
+      background: '#f8f9fa', 
+      padding: '0',
       borderRadius: '8px',
       overflowX: 'auto',
       margin: '10px 0'
