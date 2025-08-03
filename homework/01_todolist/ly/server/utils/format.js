@@ -1,8 +1,7 @@
 
 const dayjs = require('dayjs')
-const formatDate = (date) => {
-    return dayjs(date).format('HH:mm');
-}
+
+const formatDate = (date) => dayjs(date).format('HH:mm')
 module.exports = {
     formatDate
 }
