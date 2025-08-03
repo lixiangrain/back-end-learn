@@ -241,8 +241,6 @@
             methods: {
 
                 putTaskId(id, description, title, completed) {
-
-
                     this.id = id
                     this.description1 = description
                     this.title1 = title
@@ -268,6 +266,7 @@
                         const res = await axios.get('/api/todos');
                         // console.log( res.data.data);
                         this.list = res.data.data
+                        alert('获取成功')
                         // console.log(this.list[1].id);
                     } catch (error) {
                         console.error('get请求失败:', error.response.data.error);
