@@ -1,0 +1,12 @@
+[
+  {
+    "username": "testuser",
+    "password": "$2b$08$jvI06KUZdyPcfHvPC4EapeUAd1Hmrhk4cHE9a4uCyQN24a2uqbNqy",
+    "createdAt": "2025-08-03T15:30:47.177Z"
+  },
+  {
+    "username": "mcell",
+    "password": "$2b$08$a0jV1vm1w8y4tNFecz08P.fKWkNdiAx1W9RGJReRdrqzf7jHT76FG",
+    "createdAt": "2025-08-03T15:40:23.872Z"
+  }
+]
