@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { Alert } from "./ui";
+import { Button, Alert } from "./ui";
+import { MenuOutlined } from "@ant-design/icons";
 import useAuthStore from "../store/authStore";
-import { getModels, streamChatResponse } from "../services/chatService";
-import ChatHeader from "./ChatHeader";
-import ChatMessages from "./ChatMessages";
-import ChatInput from "./ChatInput";
+import { streamChatResponse } from "../services/chatService";
+import ChatMessages from "../views/ChatMessages";
+import ChatInput from "../views/ChatInput";
+import Sidebar from "./Sidebar";
 
 const Chat = () => {
   // 聊天消息状态
@@ -13,14 +14,12 @@ const Chat = () => {
   const [inputMessage, setInputMessage] = useState("");
   // 加载状态
   const [loading, setLoading] = useState(false);
-  // 模型列表
-  const [models, setModels] = useState([]);
   // 选中的模型
   const [selectedModel, setSelectedModel] = useState("qwen2.5-coder:7b");
-  // 模型加载状态
-  const [modelsLoading, setModelsLoading] = useState(true);
   // 错误信息
   const [error, setError] = useState(null);
+  // 侧边栏状态
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // 取消请求的函数
   const abortRef = useRef(null);
@@ -41,37 +40,10 @@ const Chat = () => {
     scrollToBottom();
   }, [messages]);
 
-  // 获取模型列表
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        setModelsLoading(true);
-        const modelsData = await getModels();
-        setModels(modelsData);
-
-        // 如果有模型数据，设置默认选中的模型
-        if (modelsData.length > 0) {
-          setSelectedModel(modelsData[0].name);
-        }
-      } catch (err) {
-        setError("获取模型列表失败: " + (err.message || "未知错误"));
-        console.error("获取模型列表失败:", err);
-      } finally {
-        setModelsLoading(false);
-      }
-    };
-
-    fetchModels();
-  }, []);
-
-  // 组件卸载时取消请求
-  useEffect(() => {
-    return () => {
-      if (abortRef.current) {
-        abortRef.current();
-      }
-    };
-  }, []);
+  // 切换侧边栏
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   // 处理登出
   const handleLogout = () => {
@@ -158,40 +130,96 @@ const Chat = () => {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
         height: "100vh",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        padding: "20px",
+        maxWidth: "100vw",
+        margin: 0,
+        padding: 0,
       }}
     >
-      {/* 头部区域 */}
-      <ChatHeader
-        user={user}
-        models={models}
-        modelsLoading={modelsLoading}
-        selectedModel={selectedModel}
-        setSelectedModel={setSelectedModel}
-        onLogout={handleLogout}
-      />
+      {/* 侧边栏 */}
+      <div
+        style={{
+          display: isSidebarOpen ? "flex" : "none",
+          position: window.innerWidth <= 768 ? "fixed" : "relative",
+          height: "100%",
+          zIndex: 1000,
+          left: isSidebarOpen ? 0 : "-280px",
+        }}
+      >
+        <Sidebar
+          user={user}
+          onLogout={handleLogout}
+          selectedModel={selectedModel}
+          setSelectedModel={setSelectedModel}
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
+      </div>
 
-      {/* 错误提示 */}
-      {error && (
-        <Alert message={error} type="error" onClose={() => setError(null)} />
-      )}
+      {/* 主内容区域 */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+        }}
+      >
+        {/* 移动端菜单按钮 */}
+        <div
+          style={{
+            padding: "16px",
+            display: "flex",
+            alignItems: "center",
+            borderBottom: "1px solid rgba(0, 0, 0, 0.06)",
+            background: "#fff",
+          }}
+        >
+          <Button
+            icon={<MenuOutlined />}
+            onClick={toggleSidebar}
+            type="primary"
+          />
+          <h3
+            style={{
+              margin: 0,
+              marginLeft: "12px",
+              fontSize: "18px",
+              fontWeight: "600",
+            }}
+          >
+            Ollama Chat
+          </h3>
+        </div>
 
-      {/* 消息显示区域 */}
-      <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
+        {/* 错误提示 */}
+        {error && (
+          <div style={{ padding: "0 16px" }}>
+            <Alert
+              message={error}
+              type="error"
+              onClose={() => setError(null)}
+            />
+          </div>
+        )}
 
-      {/* 输入区域 */}
-      <ChatInput
-        inputMessage={inputMessage}
-        setInputMessage={setInputMessage}
-        handleKeyPress={handleKeyPress}
-        sendMessage={sendMessage}
-        loading={loading}
-        disabled={!inputMessage.trim() || loading}
-      />
+        {/* 消息显示区域 */}
+        <div style={{ flex: 1,padding: "0 20%", overflow: "hidden" }}>
+          <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
+        </div>
+
+        {/* 输入区域 */}
+        <div style={{ padding: "16px" }}>
+          <ChatInput
+            inputMessage={inputMessage}
+            setInputMessage={setInputMessage}
+            handleKeyPress={handleKeyPress}
+            sendMessage={sendMessage}
+            loading={loading}
+            disabled={!inputMessage.trim() || loading}
+          />
+        </div>
+      </div>
     </div>
   );
 };

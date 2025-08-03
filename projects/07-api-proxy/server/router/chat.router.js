@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     message: 'Chat API 服务正常运行',
     data: {
       version: '1.0.0',
-      description: 'AI 聊天服务接口'
+      description: 'Ollama Chat API'
     }
   });
 });

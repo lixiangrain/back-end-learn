@@ -16,20 +16,17 @@ const ChatHeader = ({
         justifyContent: "space-between",
         alignItems: "center",
         marginBottom: "20px",
-        padding: "16px",
+        padding: "10px",
         background: "#fff",
         borderRadius: "18px",
         boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
       }}
     >
       <h3 style={{ margin: 0, fontSize: "20px", fontWeight: "600" }}>
-        AI 聊天助手
+        Ollama Chat
       </h3>
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <span style={{ fontSize: "16px", color: "rgba(0, 0, 0, 0.7)" }}>
-            {user?.username ? `欢迎, ${user.username}` : "欢迎"}
-          </span>
           <div style={{ width: "200px" }}>
             {modelsLoading ? (
               <Spinner size="small" />
