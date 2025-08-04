@@ -5,12 +5,14 @@ const ChatMessages = ({ messages, messagesEndRef }) => {
   return (
     <Card
       style={{
-        flex: 1,
+        height: "100%",
         overflow: "auto",
-        marginBottom: "20px",
         background: "#f5f5f7",
         display: "flex",
         flexDirection: "column",
+        margin: 0,
+        borderRadius: 0,
+        border: "none",
       }}
     >
       <div
@@ -18,6 +20,7 @@ const ChatMessages = ({ messages, messagesEndRef }) => {
           display: "flex",
           flexDirection: "column",
           flex: 1,
+          padding: "16px",
         }}
       >
         {messages.map((message) => (
@@ -29,13 +32,14 @@ const ChatMessages = ({ messages, messagesEndRef }) => {
                 message.sender === "user" ? "flex-end" : "flex-start",
               marginBottom: "16px",
               animation: "fadeIn 0.3s ease",
+              width: "100%",
             }}
           >
             <div
               style={{
                 maxWidth: "85%",
-                alignSelf:
-                  message.sender === "user" ? "flex-end" : "flex-start",
+                width: "fit-content",
+                minWidth: "120px",
               }}
             >
               <MessageWithMarkdown
@@ -48,10 +52,7 @@ const ChatMessages = ({ messages, messagesEndRef }) => {
                   opacity: 0.7,
                   marginTop: "6px",
                   textAlign: message.sender === "user" ? "right" : "left",
-                  color:
-                    message.sender === "user"
-                      ? "rgba(255, 255, 255, 0.8)"
-                      : "rgba(0, 0, 0, 0.5)",
+                  color: "rgba(0, 0, 0, 0.5)",
                 }}
               >
                 {message.timestamp}

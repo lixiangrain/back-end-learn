@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { Button, Alert } from "./ui";
-import { MenuOutlined } from "@ant-design/icons";
+import { Button, Alert } from "../components/ui";
+import { AlignLeft, AlignRight } from "lucide-react";
 import useAuthStore from "../store/authStore";
 import { streamChatResponse } from "../services/chatService";
-import ChatMessages from "../views/ChatMessages";
-import ChatInput from "../views/ChatInput";
-import Sidebar from "./Sidebar";
+import ChatMessages from "../components/ChatMessages";
+import ChatInput from "../components/ChatInput";
+import Sidebar from "../components/Sidebar";
 
 const Chat = () => {
   // 聊天消息状态
@@ -15,11 +15,11 @@ const Chat = () => {
   // 加载状态
   const [loading, setLoading] = useState(false);
   // 选中的模型
-  const [selectedModel, setSelectedModel] = useState("qwen2.5-coder:7b");
+  const [selectedModel, setSelectedModel] = useState("");
   // 错误信息
   const [error, setError] = useState(null);
   // 侧边栏状态
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // 取消请求的函数
   const abortRef = useRef(null);
@@ -176,7 +176,10 @@ const Chat = () => {
           }}
         >
           <Button
-            icon={<MenuOutlined />}
+            icon={
+              isSidebarOpen ? <AlignLeft size={16} /> : <AlignRight size={16} />
+            }
+            size="small"
             onClick={toggleSidebar}
             type="primary"
           />
@@ -204,19 +207,19 @@ const Chat = () => {
         )}
 
         {/* 消息显示区域 */}
-        <div style={{ flex: 1,padding: "0 20%", overflow: "hidden" }}>
+        <div style={{ flex: 1, padding: "0 10%", overflow: "hidden" }}>
           <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
         </div>
 
         {/* 输入区域 */}
         <div style={{ padding: "16px" }}>
           <ChatInput
+            loading={loading}
             inputMessage={inputMessage}
+            disabled={!inputMessage.trim() || loading}
             setInputMessage={setInputMessage}
             handleKeyPress={handleKeyPress}
             sendMessage={sendMessage}
-            loading={loading}
-            disabled={!inputMessage.trim() || loading}
           />
         </div>
       </div>

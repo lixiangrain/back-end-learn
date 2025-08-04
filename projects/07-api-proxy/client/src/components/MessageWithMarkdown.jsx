@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button } from "./ui";
-import { CopyOutlined } from "@ant-design/icons";
+import { Copy } from "lucide-react";
 
 // 自定义代码组件，支持复制功能
 const CodeBlock = ({ children, className, ...props }) => {
@@ -31,7 +31,7 @@ const CodeBlock = ({ children, className, ...props }) => {
           {String(children).replace(/\n$/, "")}
         </SyntaxHighlighter>
         <Button
-          icon={<CopyOutlined />}
+          icon={<Copy size={16} />}
           onClick={handleCopy}
           style={{
             position: "absolute",
@@ -112,7 +112,16 @@ const TableCell = ({ children }) => (
 
 // 自定义Markdown组件
 const MarkdownComponents = {
-  p: ({ node, ...props }) => <p style={{ margin: "0 0 10px 0" }} {...props} />,
+  p: ({ node, ...props }) => (
+    <p
+      style={{
+        margin: "8px 0",
+        lineHeight: "1.6",
+        textAlign: "left",
+      }}
+      {...props}
+    />
+  ),
   code: CodeBlock,
   pre: ({ node, ...props }) => (
     <pre
@@ -237,31 +246,32 @@ const MessageWithMarkdown = ({ content, sender }) => {
           : "#f5f5f7",
         color: isUser ? "white" : "#000",
         border: isUser ? "none" : "1px solid rgba(0, 0, 0, 0.05)",
-        maxWidth: "85%",
+        maxWidth: "100%",
+        minWidth: "120px",
+        width: "fit-content",
+        boxSizing: "border-box",
       }}
     >
       <Markdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
         {content}
       </Markdown>
-      
-      {!isUser && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: isUser ? "flex-end" : "flex-start",
-            marginTop: "8px",
-          }}
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: isUser ? "flex-end" : "flex-start",
+          marginTop: "8px",
+        }}
+      >
+        <Button
+          icon={<Copy size={16} />}
+          onClick={handleCopyMessage}
+          size="small"
+          type={isUser ? "default" : "primary"}
         >
-          <Button
-            icon={<CopyOutlined />}
-            onClick={handleCopyMessage}
-            size="small"
-            type={isUser ? "secondary" : "primary"}
-          >
-            {copied ? "已复制" : "复制"}
-          </Button>
-        </div>
-      )}
+          {copied ? "已复制" : "复制"}
+        </Button>
+      </div>
     </div>
   );
 };

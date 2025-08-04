@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Button, Select, Spinner } from "./ui";
-import { LogoutOutlined, MenuOutlined } from "@ant-design/icons";
+import { LogOut, Menu } from "lucide-react";
 import { getModels } from "../services/chatService";
+import Logo from "../../public/logo.png";
 
 const Sidebar = ({
   user,
   onLogout,
   selectedModel,
   setSelectedModel,
-  isSidebarOpen,
   toggleSidebar,
 }) => {
   const [models, setModels] = useState([]);
@@ -49,7 +49,7 @@ const Sidebar = ({
         }}
       >
         <Button
-          icon={<MenuOutlined />}
+          icon={<Menu size={16} />}
           onClick={toggleSidebar}
           type="primary"
         />
@@ -71,7 +71,7 @@ const Sidebar = ({
         {/* 侧边栏头部 */}
         <div
           style={{
-            padding: "24px 16px",
+            padding: "16px",
             borderBottom: "1px solid rgba(0, 0, 0, 0.06)",
           }}
         >
@@ -115,7 +115,6 @@ const Sidebar = ({
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                backgroundColor: "#007AFF",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -123,10 +122,12 @@ const Sidebar = ({
                 fontWeight: "bold",
                 fontSize: "18px",
                 marginRight: "12px",
+                backgroundImage: `url(${Logo})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "contain",
+                backgroundPosition: "center",
               }}
-            >
-              {user?.username?.charAt(0)?.toUpperCase() || "U"}
-            </div>
+            ></div>
             <div>
               <div
                 style={{
@@ -149,7 +150,7 @@ const Sidebar = ({
           </div>
 
           <Button
-            icon={<LogoutOutlined />}
+            icon={<LogOut size={16} />}
             onClick={onLogout}
             type="danger"
             style={{ width: "100%" }}
