@@ -1,5 +1,5 @@
-import Login from "./components/Login";
-import Chat from "./components/Chat";
+import Login from "./views/Login";
+import Chat from "./views/Chat";
 import useAuthStore from "./store/authStore";
 
 function App() {

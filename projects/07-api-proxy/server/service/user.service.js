@@ -11,6 +11,7 @@ async function registerUser(userData) {
     // Create user object with hashed password
     const user = {
       ...userData,
+      id: Date.now().toString(), // Simple ID generation
       password: hashedPassword,
       createdAt: new Date().toISOString()
     };

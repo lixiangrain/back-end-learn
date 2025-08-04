@@ -31,7 +31,20 @@ async function getUserByUsername(username) {
   }
 }
 
+async function getUserById(id) {
+  try {
+    // Read existing users
+    const users = await fileUtils.readDataFile('users.json');
+    
+    // Find user by ID
+    return users.find(user => user.id === id) || null;
+  } catch (error) {
+    throw new Error(`Failed to get user by ID: ${error.message}`);
+  }
+}
+
 module.exports = {
   saveUser,
-  getUserByUsername
+  getUserByUsername,
+  getUserById
 };

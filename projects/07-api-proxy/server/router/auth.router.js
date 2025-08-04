@@ -9,10 +9,14 @@ router.post('/register', async (req, res) => {
     const userData = req.body;
     const user = await userService.registerUser(userData);
     
+    // Remove password from user object before sending to client
+    const { password: _, ...userWithoutPassword } = user;
+    
     res.status(201).json({
       code: 201,
       message: '注册成功',
       data: {
+        user: userWithoutPassword,
         token: user.token
       }
     });
@@ -39,10 +43,14 @@ router.post('/login', async (req, res) => {
       });
     }
     
+    // Remove password from user object before sending to client
+    const { password: _, ...userWithoutPassword } = user;
+    
     res.json({
       code: 200,
       message: '登录成功',
       data: {
+        user: userWithoutPassword,
         token: user.token
       }
     });
