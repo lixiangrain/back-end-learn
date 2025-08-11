@@ -1,0 +1,17 @@
+{
+  "name": "apiproxy",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "eventsource-polyfill": "^0.9.6",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^2.7.0",
+    "ollama": "^0.5.17",
+    "uuid": "^9.0.1"
+  }
+}
