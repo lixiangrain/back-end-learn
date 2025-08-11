@@ -2,7 +2,8 @@
   "name": "todo-frontend",
   "version": "1.0.0",
   "scripts": {
-    "start": "vite"
+    "start": "vite",
+    "build": "vite build"
   },
   "dependencies": {
     "vue": "^3.2.45",

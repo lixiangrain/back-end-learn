@@ -1,11 +1,96 @@
 const http = require('http');
 const fs = require('fs').promises;
 const path = require('path');
-
 const DATA_FILE = path.join(__dirname, 'todos.json');
-
-
 const PORT = 3001;
+
+
+//post get delete put 方法
+  async function isGetRequest(method, url) {
+    if (method === 'GET' && url === '/api/todos') {
+        res.writeHead(200);
+        res.end(JSON.stringify(todos));
+      }
+  }
+  async function isPostRequest(method, url) {
+    if (method === 'POST' && url === '/api/todos') {
+      if (!body) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Text is required' }));
+        return;
+      }
+      const { text } = JSON.parse(body);
+      if (!text || typeof text !== 'string') {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Invalid text' }));
+        return;
+      }
+      const todo = { id: nextId++, text, completed: false };
+      todos.push(todo);
+      todosData.nextId = nextId;
+      await writeTodos(todosData);
+      res.writeHead(201);
+      res.end(JSON.stringify(todo));
+    }
+  }
+  async function isPutRequest(method, url) {
+    if (method === 'PUT' && match) {
+      console.log(`PUT todo ID: ${id}, Body: ${body}`); // 日志：ID和请求体
+      const todo = todos.find(t => t.id === id);
+      if (!todo) {
+        res.writeHead(404);
+        res.end(JSON.stringify({ error: 'Todo not found' }));
+        return;
+      }
+      if (!body) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Invalid request body' }));
+        return;
+      }
+      try {
+        const updates = JSON.parse(body);
+        console.log('Updates:', updates); // 日志：更新内容
+        if (updates.text !== undefined && typeof updates.text === 'string') {
+          todo.text = updates.text;
+        }
+        if (updates.completed !== undefined && typeof updates.completed === 'boolean') {
+          todo.completed = updates.completed;
+        }
+        await writeTodos(todosData);
+        res.writeHead(200);
+        res.end(JSON.stringify(todo));
+      } catch (err) {
+        console.error('PUT error:', err);
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Invalid JSON or data' }));
+      }
+    }
+  }
+  async function isDeleteRequest(method, url){
+    if (method === 'DELETE' && match) {
+      console.log(`DELETE todo ID: ${id}`); // 日志：ID
+      const index = todos.findIndex(t => t.id === id);
+      if (index === -1) {
+        res.writeHead(404);
+        res.end(JSON.stringify({ error: 'Todo not found' }));
+        return;
+      }
+      todos.splice(index, 1);
+      await writeTodos(todosData);
+      res.writeHead(200);
+      res.end(JSON.stringify({ success: true }));
+    }
+  }
+  async function isRouteNotFound(method, url){
+    console.log(`Route not found: ${method} ${url}`); // 日志：未匹配路由
+    res.writeHead(404);
+    res.end(JSON.stringify({ error: 'Route not found' }));
+  }
+
+
+
+
+
 
 // 读取 JSON 文件
 async function readTodos() {
@@ -45,6 +130,7 @@ const server = http.createServer(async (req, res) => {
   const { method, url } = req;
   let body = '';
 
+
   req.on('data', chunk => body += chunk);
   req.on('end', async () => {
     console.log(`[${new Date().toISOString()}] ${method} ${url}`); // 日志：请求方法和URL
@@ -58,80 +144,20 @@ const server = http.createServer(async (req, res) => {
       const id = match ? parseInt(match[1]) : null;
 
       if (method === 'GET' && url === '/api/todos') {
-        
-        res.writeHead(200);
-        res.end(JSON.stringify(todos));
+        await isGetRequest()
       } else if (method === 'POST' && url === '/api/todos') {
-        if (!body) {
-          res.writeHead(400);
-          res.end(JSON.stringify({ error: 'Text is required' }));
-          return;
-        }
-        const { text } = JSON.parse(body);
-        if (!text || typeof text !== 'string') {
-          res.writeHead(400);
-          res.end(JSON.stringify({ error: 'Invalid text' }));
-          return;
-        }
-        const todo = { id: nextId++, text, completed: false };
-        todos.push(todo);
-        todosData.nextId = nextId;
-        await writeTodos(todosData);
-        res.writeHead(201);
-        res.end(JSON.stringify(todo));
+        await isPostRequest();
       } else if (method === 'PUT' && match) {
-       
-        console.log(`PUT todo ID: ${id}, Body: ${body}`); // 日志：ID和请求体
-        const todo = todos.find(t => t.id === id);
-        if (!todo) {
-          res.writeHead(404);
-          res.end(JSON.stringify({ error: 'Todo not found' }));
-          return;
-        }
-        if (!body) {
-          res.writeHead(400);
-          res.end(JSON.stringify({ error: 'Invalid request body' }));
-          return;
-        }
-        try {
-          const updates = JSON.parse(body);
-          
-          console.log('Updates:', updates); // 日志：更新内容
-          if (updates.text !== undefined && typeof updates.text === 'string') {
-            todo.text = updates.text;
-          }
-          if (updates.completed !== undefined && typeof updates.completed === 'boolean') {
-            todo.completed = updates.completed;
-          }
-          await writeTodos(todosData);
-          res.writeHead(200);
-          res.end(JSON.stringify(todo));
-        } catch (err) {
-          console.error('PUT error:', err);
-          res.writeHead(400);
-          res.end(JSON.stringify({ error: 'Invalid JSON or data' }));
-        }
+        await isPutRequest();
       } else if (method === 'DELETE' && match) {
-        console.log(`DELETE todo ID: ${id}`); // 日志：ID
-        const index = todos.findIndex(t => t.id === id);
-        if (index === -1) {
-          res.writeHead(404);
-          res.end(JSON.stringify({ error: 'Todo not found' }));
-          return;
-        }
-        todos.splice(index, 1);
-        await writeTodos(todosData);
-        res.writeHead(200);
-        res.end(JSON.stringify({ success: true }));
+        await isDeleteRequest();
       } else {
-        console.log(`Route not found: ${method} ${url}`); // 日志：未匹配路由
-        res.writeHead(404);
-        res.end(JSON.stringify({ error: 'Route not found' }));
+        await isRouteNotFound();
       }
     } catch (err) {
       console.error('Server error:', err);
       res.writeHead(500);
-      res.end(JSON.stringify({ error: 'Server error' }));
+      res.end(JSON.stringify({ error: 'Internal server error' }));
     }
   });
 });

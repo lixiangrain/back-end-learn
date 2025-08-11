@@ -58,3 +58,107 @@
 - 通过 res.end 返回文件信息给前端，注意这里的信息通过包装了一下；
 
 ---
+
+## 20250803 授课主要内容总结
+
+### Express 基础
+
+1. 创建 Express 应用
+
+```js
+const express = require("express");
+
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello, Express!");
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on http://localhost:3000");
+});
+```
+
+2. Express 的核心：中间件
+
+```js
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next(); // 调用下一个中间件
+});
+```
+
+3. 中间件是个大大的洋葱模型
+
+```js
+app.use((req, res, next) => {
+  console.log("第一层中间件前置");
+  next();
+  console.log("第一层中间件后置");
+});
+
+app.use((req, res, next) => {
+  console.log("第二层中间件前置");
+  next();
+  console.log("第二层中间件后置");
+});
+
+// 访问 http://localhost:3000/ 时，输出：
+// 第一层中间件前置
+// 第二层中间件前置
+// 第二层中间件后置
+// 第一层中间件后置
+```
+
+### 中间件
+
+1. express 自带的中间件
+
+```js
+app.use(express.json()); // 解析 JSON 请求体
+app.use(express.urlencoded({ extended: true })); // 解析 URL 编码请求体
+```
+
+2. 自定义中间件
+
+```js
+// 日志中间件
+app.use((req, res, next) => {
+  const startTime = Date.now();
+  next(); // 调用下一个中间件
+  res.on("finish", () => {
+    const duration = Date.now() - startTime;
+    console.log(`${req.method} ${req.url} - ${res.statusCode} - ${duration}ms`);
+  });
+});
+```
+
+3. 错误处理中间件
+
+错误处理：捕获所有异常并返回错误信息，防止服务器崩溃；
+
+```js
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+```
+
+### Docker
+
+1. docker 简介：docker 是一个开源的容器平台，它可以将应用程序打包成镜像，并运行在容器中。
+
+2. 为什么需要 docker：
+
+   - 解决环境一致性问题：不同的开发环境、测试环境和生产环境可能存在差异，docker 可以确保在任何环境中运行相同的应用程序。
+   - 提高部署效率：docker 可以快速构建、测试和部署应用程序，从而提高开发效率。
+   - 资源隔离：docker 可以将应用程序和其依赖项打包在一起，从而实现资源隔离，避免不同应用程序之间的冲突。
+
+3. 核心概念：
+
+   - 镜像：docker 镜像是一个只读的模板，用于创建容器。镜像包含应用程序及其依赖项。
+   - 容器：docker 容器是镜像的一个实例，是一个运行中的应用程序。容器是轻量级的、可移植的、可执行的。
+   - Dockerfile：dockerfile 是创建镜像的脚本，包含构建镜像的指令。
+   - Docker Compose：docker compose 是一个用于定义和运行多容器 Docker 应用程序的工具。
+
+### [ApiProxy 作业需求文档 (Express 分层架构版本)](./docs/09.apiproxy_homework.md)
