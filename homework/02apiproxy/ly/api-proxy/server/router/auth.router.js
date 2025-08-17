@@ -5,7 +5,8 @@ const userService = require('../service/user.service');
 router.post('/register', async (req, res) => {
     try {
         const user = await userService.registerUser(req.body);
-        if (user.isExist) {
+        if (user.postExist) {
+
             return res.status(400).json({
                 code: 400,
                 message: '用户名已存在',
