@@ -3,7 +3,7 @@ const authRouter = require('./router/auth.router')
 const chatRouter = require('./router/chat.router')
 const config = require('./config/jwt.config');
 const { expressjwt: expressJWT } = require("express-jwt");
-
+const { AppDataSource } = require("./data.source");
 const app = express()
 const cors = require('cors')
 
@@ -41,6 +41,15 @@ app.use((err, req, res, next) => {
     // })
     // next()
 })
-app.listen(3000, () => {
-    console.log('Server is running on port: http://localhost:3000')
-})
+// 初始化数据库并启动服务器
+AppDataSource.initialize()
+    .then(() => {
+        console.log("数据库连接已建立");
+        app.listen(3000, () => {
+            console.log('Server is running on port: http://localhost:3000')
+        })
+    })
+    .catch((error) => {
+        console.error("数据库连接错误:", error);
+    });
+
