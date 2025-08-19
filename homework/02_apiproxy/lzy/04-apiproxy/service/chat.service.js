@@ -1,3 +1,4 @@
+// services/chat.service.js
 const { Ollama } = require("ollama");
 
 async function streamChat(req, res) {
@@ -12,25 +13,22 @@ async function streamChat(req, res) {
   res.setHeader("Connection", "keep-alive");
 
   try {
-    const ollama = new Ollama(); // 使用默认配置
+    const ollama = new Ollama({ host: "http://localhost:11434" });
     // 测试 Ollama 连接
     try {
-      const response = await ollama.list(); // 测试连接并获取模型列表
-      console.log("[chat.service.js] Ollama server connected, available models:");
+      const pingResponse = await fetch("http://localhost:11434/api/version");
+      if (!pingResponse.ok) {
+        throw new Error(`Ollama server returned ${pingResponse.status}`);
+      }
+      console.log("[chat.service.js] Ollama server connected");
     } catch (error) {
       console.error("[chat.service.js] Ollama connection failed:", error.message);
       res.write(`data: ${JSON.stringify({ error: `无法连接到 Ollama 服务: ${error.message}` })}\n\n`);
       res.end();
       return;
     }
-    // 验证模型存在
-    const models = await ollama.list();
-    if (!models.some((m) => m.name.includes(model))) {
-      console.error("[chat.service.js] Model not found:", model);
-      res.write(`data: ${JSON.stringify({ error: `模型 ${model} 未安装` })}\n\n`);
-      res.end();
-      return;
-    }
+    console.log("[chat.service.js] Using model:", model);
+    
     const stream = await ollama.chat({
       model,
       messages: [{ role: "user", content: message }],

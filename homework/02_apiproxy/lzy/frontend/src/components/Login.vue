@@ -61,35 +61,74 @@ export default {
 </script>
 
 <style scoped>
-.error-message {
-  color: red;
-  margin-top: 10px;
+/* 整体容器居中 */
+div {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
 
+/* 标题样式 */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* 表单布局 */
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 300px;
-  margin: 0 auto;
+  gap: 14px;
 }
 
+/* 输入框样式 */
 input {
-  padding: 8px;
+  padding: 12px 14px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
 }
 
+input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+}
+
+/* 按钮样式 */
 button {
-  padding: 8px;
+  padding: 12px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #43a047;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* 错误信息 */
+.error-message {
+  color: #d32f2f;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 500;
 }
 </style>

@@ -70,5 +70,11 @@
     "username": "lixiang23",
     "password": "$2a$08$Stvh4etI.PE3FYksC6SsU.z0Eq6z3XPMOFlkjVIkwUD0cHIVDNFhm",
     "createdAt": "2025-08-11T13:18:05.266Z"
+  },
+  {
+    "id": "242e6b20-5094-4ca7-9b0b-c411a0c81cf2",
+    "username": "hajim",
+    "password": "$2a$08$J/o6/cnHod8/GofO1GxN/uF1cClUrY6tLrfpNxXoflK.5Jx9snIDi",
+    "createdAt": "2025-08-19T15:18:41.736Z"
   }
 ]

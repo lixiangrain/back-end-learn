@@ -64,3 +64,34 @@ export default {
   },
 };
 </script>
+<style scoped>
+/* 全局容器 */
+div {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 标题样式 */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 1px;
+  text-align: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+/* 组件区域统一居中 */
+Register, Login, Chat {
+  display: block;
+  margin-top: 20px;
+}
+</style>
